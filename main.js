@@ -6,18 +6,18 @@ function generateBookCard(data) {
     <h3>result</h3>
     <div class="border p-4">
       <div class="d-flex">
-        <div class="col-5 p-2">
+        <div class="col-5 p-2 d-flex justify-content-center">
           <img alt="No Picture" src="${data.cover.medium}">
         </div>
         <div>
-          <h3 class='px-1 pt-1'>${data.title}</h3>
+          <h3 class='px-1 pt-1'><b>${data.title}</b></h3>
           <p class='px-1'>${data.authors[0].name}</p>
           <p class="px-1">${data.by_statement}</p>
         </div>
       </div> 
-      <div class="col-9">
+      <div class="col-12">
         <table width="100%" cellpadding="10%">
-          <tr bgcolor="#dcdcdc">
+          <tr bgcolor="#dcdcdc" width="40%">
             <td><b>page</b></td>
             <td>${data.number_of_pages}</td>
           </tr>
