@@ -3,11 +3,12 @@ function generateBookCard(data) {
   bookCard.classList.add("col-7", "p-2");
 
   let htmlString = `
-<<<<<<< HEAD
     <h3>result</h3>
     <div class="border p-4">
       <div class="d-flex">
-        <div class="col-5 p-2"></div>
+        <div class="col-5 p-2">
+          <img alt="No Picture" src="${data.cover.medium}">
+        </div>
         <div>
           <h3 class='px-1 pt-1'>${data.title}</h3>
           <p class='px-1'>${data.authors[0].name}</p>
