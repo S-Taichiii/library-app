@@ -65,14 +65,20 @@ searchBtn.addEventListener("click", () => {
   let parent = document.getElementById(config.parentId);
   let isbn = document.getElementById(config.searchInputId).value;
 
+  parent.innerHTML = "";
+
   fetch(config.url + isbn)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      for (let bookKey in data) {
-        let currentBook = data[bookKey];
+      // console.log(data);
+      if (Object.keys(data).length === 0 && data.constructor === Object)
+        parent.innerHTML = `<h1>Not found</h1>`;
+      else {
+        for (let bookKey in data) {
+          let currentBook = data[bookKey];
 
-        parent.append(generateBookCard(currentBook));
+          parent.append(generateBookCard(currentBook));
+        }
       }
     });
 });
