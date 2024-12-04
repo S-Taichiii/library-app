@@ -1,36 +1,36 @@
-function generateBookCard() {
+function generateBookCard(data) {
   let bookCard = document.createElement("div");
   bookCard.classList.add("col-7", "p-2");
 
   let htmlString = `
+<<<<<<< HEAD
     <h3>result</h3>
     <div class="border p-4">
       <div class="d-flex">
         <div class="col-5 p-2"></div>
         <div>
-          <h3 class='px-1 pt-1'>THE HABITS OF HIGHLY EFFECTIVE PEOPLE</h3>
-          <p class='px-1'>name</p>
-          <p class="px-1">price</p>
-          <p class="px-1">From the New York Times bestselling author of Bad Feminist: a searingly honest memoir of food, weight, self-image, and learning how to feed your hunger while taking care of yourself. “I ate and ate and ate in the hopes that if I made myself big, my body would be safe. I buried the girl I was because she ran into all kinds of trouble. I tried to erase every memory of her, but she is still there, somewhere. . . . I was trapped in my body, one that I barely recognized or understood, but at least I was safe.” In her phenomenally popular essays and long-running Tumblr blog, Roxane Gay has written </p>
+          <h3 class='px-1 pt-1'>${data.title}</h3>
+          <p class='px-1'>${data.authors[0].name}</p>
+          <p class="px-1">${data.by_statement}</p>
         </div>
       </div> 
       <div class="col-9">
         <table width="100%" cellpadding="10%">
           <tr bgcolor="#dcdcdc">
             <td><b>page</b></td>
-            <td>320</td>
+            <td>${data.number_of_pages}</td>
           </tr>
           <tr class="border-top" bg-color="#f5f5f5">
             <td><b>pulisher</b></td>
-            <td>Simon & Schuster Audio</td>
+            <td>${parseArrayToString(data.publishers)}</td>
           </tr>
           <tr bgcolor="#dcdcdc">
             <td><b>Published Date</b></td>
-            <td>12-07-2019</td>
+            <td>${data.publish_date}</td>
           </tr>
           <tr bg-color="#f5f5f5">
             <td><b>Categories</b></td>
-            <td>Biography & Autobiography</td>
+            <td>${parseArrayToString(data.subjects)}</td>
           </tr>
         </table>
       </div>
@@ -42,5 +42,36 @@ function generateBookCard() {
   return bookCard;
 }
 
-let parent = document.getElementById("target");
-parent.append(generateBookCard());
+function parseArrayToString(data) {
+  let parse = "";
+  for (let i = 0; i < data.length - 1; i++) {
+    parse += data[i].name + ", ";
+  }
+
+  return parse + data[data.length - 1].name;
+}
+
+const config = {
+  url: "https://openlibrary.org/api/books?jscmd=data&format=json&bibkeys=ISBN:",
+  parentId: "target",
+  searchBtnId: "isbn-search-btn",
+  searchInputId: "isbn-search",
+};
+
+let searchBtn = document.getElementById(config.searchBtnId);
+
+searchBtn.addEventListener("click", () => {
+  let parent = document.getElementById(config.parentId);
+  let isbn = document.getElementById(config.searchInputId).value;
+
+  fetch(config.url + isbn)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      for (let bookKey in data) {
+        let currentBook = data[bookKey];
+
+        parent.append(generateBookCard(currentBook));
+      }
+    });
+});
